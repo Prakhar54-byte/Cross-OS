@@ -1,0 +1,42 @@
+[
+    {
+        "classes": [
+            {
+                "className": "Backend",
+                "lineNumber": 11,
+                "object": true,
+                "qualifiedClassName": "Backend",
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "text",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 0,
+                        "lineNumber": 32,
+                        "name": "saveNote",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 1,
+                        "lineNumber": 46,
+                        "name": "loadHistory",
+                        "returnType": "QString"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "backend.h",
+        "outputRevision": 69
+    }
+]

@@ -1,0 +1,14 @@
+-I
+/home/prakhar/Downloads/cross-os/build
+-I
+/home/prakhar/Downloads/cross-os/build/Main
+-I
+/home/prakhar/Downloads/cross-os/build
+-I
+/usr/lib/qt6/qml
+--resource
+/home/prakhar/Downloads/cross-os/build/.qt/rcc/qmake_Main.qrc
+--resource
+/home/prakhar/Downloads/cross-os/build/.qt/rcc/cross-os_raw_qml_0.qrc
+--module
+Main
