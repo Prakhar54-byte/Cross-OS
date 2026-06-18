@@ -1,0 +1,41 @@
+# CMake build directories
+build/
+cmake-build-*/
+out/
+
+# Qt generated files & logs
+*.log
+*.user
+*.user.*
+.qtcreator/
+CMakeLists.txt.user
+
+# Local notes database/files (should not be checked into Git)
+shared_notes.txt
+karchara_notes.txt
+drops/
+
+# Compiler outputs & object files
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDES and editor configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.vs/
