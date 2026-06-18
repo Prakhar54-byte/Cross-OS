@@ -8,11 +8,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Network)
 
 qt_add_executable(cross-os
     main.cpp
     backend.h
+    backend.cpp
 )
 
 qt_add_qml_module(cross-os
@@ -26,4 +27,5 @@ target_link_libraries(cross-os PRIVATE
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
+    Qt6::Network
 )

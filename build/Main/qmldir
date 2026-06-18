@@ -1,5 +1,0 @@
-module Main
-typeinfo cross-os.qmltypes
-prefer :/Main/
-depends QtQuick
-

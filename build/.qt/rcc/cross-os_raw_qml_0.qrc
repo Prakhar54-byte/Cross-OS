@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/Main/">
-    <file alias="main.qml">/home/prakhar/Downloads/cross-os/main.qml</file>
-  </qresource>
-</RCC>
-
