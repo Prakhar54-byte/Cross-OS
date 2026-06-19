@@ -1,0 +1,14 @@
+-rootPath
+/home/prakhar/Downloads/cross-os
+-cmake-output
+-output-file
+/home/prakhar/Downloads/cross-os/build-release/.qt/qml_imports/cross-os_conf.cmake
+-importPath
+/home/prakhar/Downloads/cross-os/build-release
+-importPath
+/home/prakhar/Downloads/cross-os/build-release/Main
+-importPath
+/usr/lib/qt6/qml
+-qrcFiles
+/home/prakhar/Downloads/cross-os/build-release/.qt/rcc/qmake_Main.qrc
+/home/prakhar/Downloads/cross-os/build-release/.qt/rcc/cross-os_raw_qml_0.qrc

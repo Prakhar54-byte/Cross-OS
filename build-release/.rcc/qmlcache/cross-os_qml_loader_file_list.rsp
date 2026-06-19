@@ -1,0 +1,5 @@
+--resource
+/home/prakhar/Downloads/cross-os/build-release/.qt/rcc/qmake_Main.qrc
+--resource
+/home/prakhar/Downloads/cross-os/build-release/.qt/rcc/cross-os_raw_qml_0.qrc
+/Main/main.qml

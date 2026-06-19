@@ -1,0 +1,515 @@
+[
+    {
+        "classes": [
+            {
+                "className": "Backend",
+                "lineNumber": 30,
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "lineNumber": 32,
+                        "name": "sharedPath",
+                        "notify": "sharedPathChanged",
+                        "override": false,
+                        "read": "sharedPath",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false,
+                        "write": "setSharedPath"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "lineNumber": 33,
+                        "name": "historyText",
+                        "notify": "historyTextChanged",
+                        "override": false,
+                        "read": "historyText",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "lineNumber": 34,
+                        "name": "clipboardSync",
+                        "notify": "clipboardSyncChanged",
+                        "override": false,
+                        "read": "clipboardSync",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false,
+                        "virtual": false,
+                        "write": "setClipboardSync"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "lineNumber": 35,
+                        "name": "lanSync",
+                        "notify": "lanSyncChanged",
+                        "override": false,
+                        "read": "lanSync",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false,
+                        "virtual": false,
+                        "write": "setLanSync"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "lineNumber": 36,
+                        "name": "peerList",
+                        "notify": "peerListChanged",
+                        "override": false,
+                        "read": "peerList",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QStringList",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "lineNumber": 37,
+                        "name": "localIP",
+                        "override": false,
+                        "read": "localIP",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "lineNumber": 38,
+                        "name": "currentOS",
+                        "override": false,
+                        "read": "currentOS",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "lineNumber": 39,
+                        "name": "deviceName",
+                        "override": false,
+                        "read": "deviceName",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 8,
+                        "lineNumber": 40,
+                        "name": "notes",
+                        "notify": "historyTextChanged",
+                        "override": false,
+                        "read": "notes",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 9,
+                        "lineNumber": 41,
+                        "name": "trashNotes",
+                        "notify": "historyTextChanged",
+                        "override": false,
+                        "read": "trashNotes",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 10,
+                        "lineNumber": 42,
+                        "name": "mountedDrives",
+                        "notify": "mountedDrivesChanged",
+                        "override": false,
+                        "read": "mountedDrives",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 11,
+                        "lineNumber": 43,
+                        "name": "droppedFiles",
+                        "notify": "droppedFilesChanged",
+                        "override": false,
+                        "read": "droppedFiles",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false,
+                        "virtual": false
+                    }
+                ],
+                "qualifiedClassName": "Backend",
+                "signals": [
+                    {
+                        "access": "public",
+                        "index": 0,
+                        "lineNumber": 94,
+                        "name": "sharedPathChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 1,
+                        "lineNumber": 95,
+                        "name": "historyTextChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 2,
+                        "lineNumber": 96,
+                        "name": "clipboardSyncChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 3,
+                        "lineNumber": 97,
+                        "name": "lanSyncChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 4,
+                        "lineNumber": 98,
+                        "name": "peerListChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "sender",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "text",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 5,
+                        "lineNumber": 99,
+                        "name": "noteReceived",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 6,
+                        "lineNumber": 100,
+                        "name": "mountedDrivesChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 7,
+                        "lineNumber": 101,
+                        "name": "droppedFilesChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "text",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "type",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 8,
+                        "lineNumber": 77,
+                        "name": "saveNote",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "text",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 9,
+                        "isCloned": true,
+                        "lineNumber": 77,
+                        "name": "saveNote",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "index": 10,
+                        "lineNumber": 78,
+                        "name": "saveFileDrop",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 11,
+                        "lineNumber": 79,
+                        "name": "loadHistory",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "index": 12,
+                        "lineNumber": 80,
+                        "name": "clearHistory",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "text",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 13,
+                        "lineNumber": 81,
+                        "name": "copyToClipboard",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 14,
+                        "lineNumber": 82,
+                        "name": "openSharedFolder",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "index": 15,
+                        "lineNumber": 83,
+                        "name": "deleteNote",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "index": 16,
+                        "lineNumber": 84,
+                        "name": "togglePin",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "index": 17,
+                        "lineNumber": 85,
+                        "name": "restoreNote",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "index": 18,
+                        "lineNumber": 86,
+                        "name": "deleteNoteForever",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 19,
+                        "lineNumber": 87,
+                        "name": "refreshMountedDrives",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 20,
+                        "lineNumber": 88,
+                        "name": "refreshDroppedFiles",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "filePath",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 21,
+                        "lineNumber": 89,
+                        "name": "openFileExternal",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "fileName",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 22,
+                        "lineNumber": 90,
+                        "name": "deleteDroppedFile",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 23,
+                        "lineNumber": 91,
+                        "name": "dropsDirectory",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "private",
+                        "index": 24,
+                        "lineNumber": 104,
+                        "name": "onClipboardChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "index": 25,
+                        "lineNumber": 105,
+                        "name": "sendDiscoveryBroadcast",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "index": 26,
+                        "lineNumber": 106,
+                        "name": "processPendingDatagrams",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "index": 27,
+                        "lineNumber": 107,
+                        "name": "handleNewConnection",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "index": 28,
+                        "lineNumber": 108,
+                        "name": "readClientData",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "index": 29,
+                        "lineNumber": 109,
+                        "name": "checkInactivePeers",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "backend.h",
+        "outputRevision": 69
+    }
+]

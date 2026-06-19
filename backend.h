@@ -16,6 +16,7 @@
 #include <QTimer>
 #include <QNetworkInterface>
 #include <QHostInfo>
+#include <QStorageInfo>
 
 struct NoteEntry {
     QString timestamp;
@@ -38,6 +39,8 @@ class Backend : public QObject {
     Q_PROPERTY(QString deviceName READ deviceName CONSTANT)
     Q_PROPERTY(QVariantList notes READ notes NOTIFY historyTextChanged)
     Q_PROPERTY(QVariantList trashNotes READ trashNotes NOTIFY historyTextChanged)
+    Q_PROPERTY(QVariantList mountedDrives READ mountedDrives NOTIFY mountedDrivesChanged)
+    Q_PROPERTY(QVariantList droppedFiles READ droppedFiles NOTIFY droppedFilesChanged)
 
 public:
     explicit Backend(QObject *parent = nullptr);
@@ -62,6 +65,8 @@ public:
     QString deviceName() { return getDeviceName(); }
     QVariantList notes();
     QVariantList trashNotes();
+    QVariantList mountedDrives();
+    QVariantList droppedFiles();
 
     // Helper to detect current OS
     static QString getCurrentOS();
@@ -79,6 +84,11 @@ public slots:
     void togglePin(int index);
     void restoreNote(int index);
     void deleteNoteForever(int index);
+    void refreshMountedDrives();
+    void refreshDroppedFiles();
+    void openFileExternal(const QString &filePath);
+    void deleteDroppedFile(const QString &fileName);
+    QString dropsDirectory();
 
 signals:
     void sharedPathChanged();
@@ -87,6 +97,8 @@ signals:
     void lanSyncChanged();
     void peerListChanged();
     void noteReceived(const QString &sender, const QString &text);
+    void mountedDrivesChanged();
+    void droppedFilesChanged();
 
 private slots:
     void onClipboardChanged();

@@ -1,0 +1,42 @@
+file(REMOVE_RECURSE
+  ".qt/rcc/qrc_cross-os_raw_qml_0.cpp"
+  ".qt/rcc/qrc_qmake_Main.cpp"
+  ".rcc/qmlcache/cross-os_main_qml.cpp"
+  ".rcc/qmlcache/cross-os_main_qml.cpp.aotstats"
+  ".rcc/qmlcache/cross-os_qmlcache_loader.cpp"
+  "CMakeFiles/cross-os.dir/link.d"
+  "CMakeFiles/cross-os_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/cross-os_autogen.dir/ParseCache.txt"
+  "cross-os_autogen"
+  "CMakeFiles/cross-os.dir/backend.cpp.o"
+  "CMakeFiles/cross-os.dir/backend.cpp.o.d"
+  "CMakeFiles/cross-os.dir/build-release/.qt/rcc/qrc_cross-os_raw_qml_0.cpp.o"
+  "CMakeFiles/cross-os.dir/build-release/.qt/rcc/qrc_cross-os_raw_qml_0.cpp.o.d"
+  "CMakeFiles/cross-os.dir/build-release/.qt/rcc/qrc_qmake_Main.cpp.o"
+  "CMakeFiles/cross-os.dir/build-release/.qt/rcc/qrc_qmake_Main.cpp.o.d"
+  "CMakeFiles/cross-os.dir/build-release/.rcc/qmlcache/cross-os_main_qml.cpp.o"
+  "CMakeFiles/cross-os.dir/build-release/.rcc/qmlcache/cross-os_main_qml.cpp.o.d"
+  "CMakeFiles/cross-os.dir/build-release/.rcc/qmlcache/cross-os_qmlcache_loader.cpp.o"
+  "CMakeFiles/cross-os.dir/build-release/.rcc/qmlcache/cross-os_qmlcache_loader.cpp.o.d"
+  "CMakeFiles/cross-os.dir/cross-os_autogen/mocs_compilation.cpp.o"
+  "CMakeFiles/cross-os.dir/cross-os_autogen/mocs_compilation.cpp.o.d"
+  "CMakeFiles/cross-os.dir/cross-os_qmltyperegistrations.cpp.o"
+  "CMakeFiles/cross-os.dir/cross-os_qmltyperegistrations.cpp.o.d"
+  "CMakeFiles/cross-os.dir/main.cpp.o"
+  "CMakeFiles/cross-os.dir/main.cpp.o.d"
+  "Main/cross-os.qmltypes"
+  "cross-os"
+  "cross-os.pdb"
+  "cross-os_autogen/mocs_compilation.cpp"
+  "cross-os_autogen/timestamp"
+  "cross-os_qmltyperegistrations.cpp"
+  "meta_types/cross-os_json_file_list.txt"
+  "meta_types/cross-os_json_file_list.txt.timestamp"
+  "meta_types/qt6cross-os_metatypes.json"
+  "meta_types/qt6cross-os_metatypes.json.gen"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/cross-os.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

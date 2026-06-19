@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/prakhar/Downloads/cross-os/build-release/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

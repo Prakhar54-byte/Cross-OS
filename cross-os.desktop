@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=OS DropZone
+Comment=Cross-OS file and note sharing app for dual-boot systems
+Exec=cross-os
+Icon=cross-os
+Terminal=false
+Categories=Utility;
+Keywords=sync;dualboot;share;notes;dropzone;

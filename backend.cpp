@@ -39,6 +39,7 @@ Backend::Backend(QObject *parent)
     }
 
     // Ensure storage file exists and has a starting header
+    QDir().mkpath(QFileInfo(m_sharedPath).absoluteDir().absolutePath());
     QFile file(m_sharedPath);
     if (!file.exists()) {
         clearHistory();
@@ -54,7 +55,17 @@ Backend::~Backend() {
 void Backend::loadSettings() {
     QSettings settings("OSDropZone", "CrossOS");
     m_sharedPath = settings.value("sharedPath", QDir::homePath() + "/shared_notes.txt").toString();
-    m_trashPath = QFileInfo(m_sharedPath).absoluteDir().absolutePath() + "/karchara_notes.txt";
+    
+    // Ensure the folder exists and is writable, fallback to home directory otherwise
+    QString dirPath = QFileInfo(m_sharedPath).absoluteDir().absolutePath();
+    QDir().mkpath(dirPath);
+    QFileInfo dirInfo(dirPath);
+    if (!dirInfo.exists() || !dirInfo.isWritable()) {
+        m_sharedPath = QDir::homePath() + "/shared_notes.txt";
+        dirPath = QDir::homePath();
+    }
+    
+    m_trashPath = dirPath + "/karchara_notes.txt";
     m_clipboardSync = settings.value("clipboardSync", false).toBool();
     m_lanSync = settings.value("lanSync", false).toBool();
 }
@@ -87,9 +98,28 @@ void Backend::setSharedPath(const QString &path) {
     if (cleanPath.startsWith("file://")) {
         cleanPath = QUrl(cleanPath).toLocalFile();
     }
+    
+    QString dirPath = QFileInfo(cleanPath).absoluteDir().absolutePath();
+    QDir().mkpath(dirPath);
+    QFileInfo dirInfo(dirPath);
+    
+    // If the path is not writable, fall back to home directory
+    if (!dirInfo.exists() || !dirInfo.isWritable()) {
+        qDebug() << "Warning: Shared folder path does not exist or is not writeable by current user, falling back to home:" << dirPath;
+        cleanPath = QDir::homePath() + "/shared_notes.txt";
+        dirPath = QDir::homePath();
+    }
+
     if (m_sharedPath != cleanPath) {
         m_sharedPath = cleanPath;
-        m_trashPath = QFileInfo(m_sharedPath).absoluteDir().absolutePath() + "/karchara_notes.txt";
+        m_trashPath = dirPath + "/karchara_notes.txt";
+        
+        // Ensure file exists
+        QFile file(m_sharedPath);
+        if (!file.exists()) {
+            clearHistory();
+        }
+
         saveSettings();
         emit sharedPathChanged();
         emit historyTextChanged();
@@ -180,6 +210,33 @@ void Backend::saveNote(const QString &text, const QString &type) {
     emit historyTextChanged();
 }
 
+static bool copyRecursively(const QString &srcFilePath, const QString &tgtFilePath) {
+    QFileInfo srcFileInfo(srcFilePath);
+    if (srcFileInfo.isDir()) {
+        QDir targetDir(tgtFilePath);
+        if (!targetDir.exists()) {
+            if (!targetDir.mkpath(".")) {
+                return false;
+            }
+        }
+        QDir sourceDir(srcFilePath);
+        QStringList fileNames = sourceDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System);
+        for (const QString &fileName : fileNames) {
+            const QString newSrcFilePath = srcFilePath + "/" + fileName;
+            const QString newTgtFilePath = tgtFilePath + "/" + fileName;
+            if (!copyRecursively(newSrcFilePath, newTgtFilePath)) {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        if (QFile::exists(tgtFilePath)) {
+            QFile::remove(tgtFilePath);
+        }
+        return QFile::copy(srcFilePath, tgtFilePath);
+    }
+}
+
 void Backend::saveFileDrop(const QUrl &url) {
     QString localPath = url.toLocalFile();
     if (localPath.isEmpty()) return;
@@ -194,19 +251,36 @@ void Backend::saveFileDrop(const QUrl &url) {
 
     QString destPath = dropsPath + "/" + fileInfo.fileName();
 
-    if (QFile::exists(destPath)) {
-        QFile::remove(destPath);
+    if (fileInfo.isDir()) {
+        // Remove existing target folder if it exists
+        if (QDir(destPath).exists()) {
+            QDir(destPath).removeRecursively();
+        }
+        if (copyRecursively(localPath, destPath)) {
+            saveNote(QString("Folder Shared! Check your drops directory.\nName: %1\nCopied to: %2")
+                     .arg(fileInfo.fileName())
+                     .arg(destPath), "Folder Drop");
+        } else {
+            saveNote(QString("Folder Referenced (Copy failed/same path).\nName: %1\nLocation: %2")
+                     .arg(fileInfo.fileName())
+                     .arg(localPath), "Folder Link");
+        }
+    } else {
+        if (QFile::exists(destPath)) {
+            QFile::remove(destPath);
+        }
+        if (QFile::copy(localPath, destPath)) {
+            saveNote(QString("File Shared! Check your drops directory.\nName: %1\nCopied to: %2")
+                     .arg(fileInfo.fileName())
+                     .arg(destPath), "File Drop");
+        } else {
+            saveNote(QString("File Referenced (Copy failed/same path).\nName: %1\nLocation: %2")
+                     .arg(fileInfo.fileName())
+                     .arg(localPath), "File Link");
+        }
     }
 
-    if (QFile::copy(localPath, destPath)) {
-        saveNote(QString("File Shared! Check your drops directory.\nName: %1\nCopied to: %2")
-                 .arg(fileInfo.fileName())
-                 .arg(destPath), "File Drop");
-    } else {
-        saveNote(QString("File Referenced (Copy failed/same path).\nName: %1\nLocation: %2")
-                 .arg(fileInfo.fileName())
-                 .arg(localPath), "File Link");
-    }
+    emit droppedFilesChanged();
 }
 
 QString Backend::loadHistory() {
@@ -230,6 +304,7 @@ QString Backend::loadHistory() {
 }
 
 void Backend::clearHistory() {
+    QDir().mkpath(QFileInfo(m_sharedPath).absoluteDir().absolutePath());
     QFile file(m_sharedPath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
@@ -266,7 +341,12 @@ void Backend::copyToClipboard(const QString &text) {
 
 void Backend::openSharedFolder() {
     QString folderPath = QFileInfo(m_sharedPath).absolutePath();
-    QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
+    QDir().mkpath(folderPath);
+    if (QDir(folderPath).exists()) {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
+    } else {
+        qDebug() << "Cannot open shared folder: directory does not exist or lacks read permissions." << folderPath;
+    }
 }
 
 void Backend::onClipboardChanged() {
@@ -407,6 +487,7 @@ void Backend::checkInactivePeers() {
 }
 
 void Backend::appendLogToFile(const QString &header, const QString &body) {
+    QDir().mkpath(QFileInfo(m_sharedPath).absoluteDir().absolutePath());
     QFile file(m_sharedPath);
     if (file.open(QIODevice::Append | QIODevice::Text)) {
         QTextStream out(&file);
@@ -644,6 +725,7 @@ QList<NoteEntry> Backend::parseNotesFile(const QString &filePath) {
 }
 
 void Backend::writeNotesToFile(const QString &filePath, const QList<NoteEntry> &notes) {
+    QDir().mkpath(QFileInfo(filePath).absoluteDir().absolutePath());
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return;
@@ -705,4 +787,137 @@ void Backend::cleanupOldTrash() {
     if (changed) {
         writeNotesToFile(m_trashPath, remainingTrash);
     }
+}
+
+QVariantList Backend::mountedDrives() {
+    QVariantList list;
+    QList<QStorageInfo> volumes = QStorageInfo::mountedVolumes();
+    for (const auto &volume : volumes) {
+        if (!volume.isValid() || !volume.isReady()) {
+            continue;
+        }
+
+        QString path = volume.rootPath();
+        
+        // Exclude system and internal mount paths on Linux
+        if (path.startsWith("/sys") || path.startsWith("/proc") || 
+            path.startsWith("/dev") || path.startsWith("/run/user") || 
+            path.startsWith("/var/lib") || path.startsWith("/snap") ||
+            path.startsWith("/boot")) {
+            continue;
+        }
+
+        QString fsType = volume.fileSystemType().toLower();
+        if (fsType == "tmpfs" || fsType == "devtmpfs" || fsType == "sysfs" || 
+            fsType == "proc" || fsType == "cgroup" || fsType == "overlay" || 
+            fsType == "squashfs" || fsType == "configfs" || fsType == "debugfs") {
+            continue;
+        }
+
+        bool isCompatible = (fsType == "ntfs" || fsType == "exfat" || 
+                              fsType == "vfat" || fsType == "msdos" || 
+                              fsType == "fuseblk");
+                              
+        bool isWritable = !volume.isReadOnly() && QFileInfo(path).isWritable();
+
+        QString label = volume.name();
+        if (label.isEmpty()) {
+            label = volume.displayName();
+        }
+        if (label.isEmpty()) {
+            label = "Unnamed Volume";
+        }
+
+        QVariantMap map;
+        map["rootPath"] = path;
+        map["name"] = label;
+        map["device"] = volume.device();
+        map["fileSystemType"] = fsType;
+        map["bytesAvailable"] = volume.bytesAvailable();
+        map["bytesTotal"] = volume.bytesTotal();
+        map["isCompatible"] = isCompatible;
+        map["isWritable"] = isWritable;
+
+        list.append(map);
+    }
+    return list;
+}
+
+void Backend::refreshMountedDrives() {
+    emit mountedDrivesChanged();
+}
+
+QString Backend::dropsDirectory() {
+    QDir sharedDir = QFileInfo(m_sharedPath).absoluteDir();
+    return sharedDir.absolutePath() + "/drops";
+}
+
+QVariantList Backend::droppedFiles() {
+    QVariantList list;
+    QString dropsPath = dropsDirectory();
+    QDir dropsDir(dropsPath);
+    
+    if (!dropsDir.exists()) {
+        return list;
+    }
+    
+    QFileInfoList entries = dropsDir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Time);
+    for (const auto &entry : entries) {
+        QVariantMap map;
+        map["fileName"] = entry.fileName();
+        map["filePath"] = entry.absoluteFilePath();
+        map["size"] = entry.size();
+        map["lastModified"] = entry.lastModified().toString("yyyy-MM-dd HH:mm");
+        
+        // Determine file type icon/category
+        QString suffix = entry.suffix().toLower();
+        QString category = "FILE";
+        if (suffix == "png" || suffix == "jpg" || suffix == "jpeg" || suffix == "gif" || suffix == "bmp" || suffix == "svg" || suffix == "webp") {
+            category = "IMAGE";
+        } else if (suffix == "txt" || suffix == "md" || suffix == "log" || suffix == "csv" || suffix == "json" || suffix == "xml" || suffix == "yaml" || suffix == "yml") {
+            category = "TEXT";
+        } else if (suffix == "cpp" || suffix == "h" || suffix == "py" || suffix == "js" || suffix == "ts" || suffix == "java" || suffix == "rs" || suffix == "go" || suffix == "c" || suffix == "cs") {
+            category = "CODE";
+        } else if (suffix == "pdf" || suffix == "doc" || suffix == "docx" || suffix == "odt") {
+            category = "DOC";
+        } else if (suffix == "zip" || suffix == "tar" || suffix == "gz" || suffix == "7z" || suffix == "rar") {
+            category = "ARCHIVE";
+        } else if (suffix == "mp4" || suffix == "mkv" || suffix == "avi" || suffix == "webm" || suffix == "mov") {
+            category = "VIDEO";
+        } else if (suffix == "mp3" || suffix == "wav" || suffix == "flac" || suffix == "ogg" || suffix == "aac") {
+            category = "AUDIO";
+        }
+        map["category"] = category;
+        
+        list.append(map);
+    }
+    return list;
+}
+
+void Backend::refreshDroppedFiles() {
+    emit droppedFilesChanged();
+}
+
+void Backend::openFileExternal(const QString &filePath) {
+    if (filePath.isEmpty()) return;
+    QFileInfo fi(filePath);
+    if (!fi.exists()) {
+        qDebug() << "Cannot open file: does not exist" << filePath;
+        return;
+    }
+    QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+}
+
+void Backend::deleteDroppedFile(const QString &fileName) {
+    if (fileName.isEmpty()) return;
+    QString fullPath = dropsDirectory() + "/" + fileName;
+    QFile file(fullPath);
+    if (file.exists()) {
+        if (file.remove()) {
+            qDebug() << "Deleted dropped file:" << fullPath;
+        } else {
+            qDebug() << "Failed to delete dropped file:" << fullPath;
+        }
+    }
+    emit droppedFilesChanged();
 }

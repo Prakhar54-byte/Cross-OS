@@ -10,10 +10,18 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Network)
 
-qt_add_executable(cross-os
+set(PROJECT_SOURCES
     main.cpp
     backend.h
     backend.cpp
+)
+
+if(WIN32)
+    list(APPEND PROJECT_SOURCES resources.rc)
+endif()
+
+qt_add_executable(cross-os WIN32
+    ${PROJECT_SOURCES}
 )
 
 qt_add_qml_module(cross-os

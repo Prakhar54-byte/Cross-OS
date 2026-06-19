@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/Main">/home/prakhar/Downloads/cross-os/build-release/Main</file>
+
+  </qresource>
+</RCC>

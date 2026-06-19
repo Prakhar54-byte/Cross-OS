@@ -6,10 +6,9 @@
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
-    QQmlApplicationEngine engine;
-    
-    // Create the backend and expose it to the UI
+    // Create the backend first so it outlives the QML engine during destruction
     Backend backend;
+    QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Backend", &backend);
 
     // The modernized Qt6 string format (Removed the _qs)
